@@ -2,10 +2,11 @@
 var formEl = document.querySelector("#task-form");
 var tasksToDoEl = document.querySelector("#tasks-to-do");
 var taskIdCounter = 0;
+var pageContentEl = document.querySelector("#page-content");
 
 
     // ****** Form Handler
-var taskFormhandler = function(event) {
+var taskFormHandler = function(event) {
     event.preventDefault();
     var taskNameInput = document.querySelector("input[name='task-name']").value;
     var taskTypeInput = document.querySelector("select[name='task-type']").value;
@@ -73,7 +74,7 @@ var createTaskActions = function(taskId) {
   actionContainerEl.appendChild(deleteButtonEl);
   
     // ****** Create Select Element
-  var statusSelectEl - document.createElement("select");
+  var statusSelectEl = document.createElement("select");
   statusSelectEl.classname = "select-status";
   statusSelectEl.setAttribute("name", "status-change");
   statusSelectEl.setAttribute("data-task-id", taskId);
@@ -81,21 +82,31 @@ var createTaskActions = function(taskId) {
   actionContainerEl.appendChild(statusSelectEl);
   
   var statusChoices = ["To Do", "In Progress", "Completed"];
-  for (var i = 0, 1 < statusChoices.length, i++) {
+  for (var i = 0; i < statusChoices.length; i++) {
       // Create option element
     var statusOptionEl = document.createElement("option");
     statusOptionEl.textContent = statusChoices[i];
-    statusOptionEl.sstAttribute("value", statusChoices[i]);
+    statusOptionEl.setAttribute("value", statusChoices[i]);
     
     statusSelectEl.appendChild(statusOptionEl);
   };
   
-  return actioncontainerEl;
+  return actionContainerEl;
 };
 
 // ****** Event Listener
-formEl.addEventListener("submit", taskFormhandler); {
+formEl.addEventListener("submit", taskFormHandler); {
+//  debugger;
   var listItemEl = document.createElement("li");
   listItemEl.className = "task-item";
-  listItemEl.textContent = taskNameInput;
+  listItemEl.textContent = name;
 }
+
+var taskButtonHandler = function(event) {
+  console.log(event.target);
+  if (event.target.matches(".delete-btn")) {
+    console.log("You clicked the delete button");
+  }
+}
+
+pageContentEl.addEventListener("click", taskButtonHandler);
