@@ -19,15 +19,35 @@ var taskFormHandler = function(event) {
   
     formEl.reset();
   
-        // ****** package update as an object
-    var taskDataObj = {
-      name: taskNameInput,
-      type: taskTypeInput
-    };
+    var isEdit = formEl.hasAttribute("data-task-id");
     
-        // ****** Send it as an argument to createTaskEl
-    createTaskEl(taskDataObj);
+    if (isEdit) {
+      var taskId=formEl.getAttribute("get-task-id");
+      completeEditTask(taskNameInput, taskTypeInput, taskId);
+    }
+  
+    else{
+          // ****** package update as an object
+      var taskDataObj = {
+        name: taskNameInput,
+        type: taskTypeInput
+      }
+    
+            // ****** Send it as an argument to createTaskEl
+      createTaskEl(taskDataObj);
+    }
 } 
+
+var completeEditTask = function(taskName, taskType, taskId) {
+  var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
+  
+  taskSelected.querySelector("h3.task-name").textContent = taskName;
+  taskSelected.querySelector("span.task-type").textContent = taskType;
+  
+  alert("Task Updated!");
+  formEl.removeAttribute("data-task-id");
+  document.querySelector("#save-task").textContent = "Add Task";
+}
 
 // ****** Create task Element
 var createTaskEl = function(taskDataObj) {
@@ -123,18 +143,19 @@ var deleteTask = function(taskId) {
   console.log(taskSelected);
 }
 
+// ****** Edit button
 var editTask = function(taskId) {
-  console.log("editing task #" + taskId)
 
     // ****** get task list item element
   var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
 
     // ****** get content from task name
   var taskName = taskSelected.querySelector("h3.task-name").textContent;
-  console.log(taskName);
-
   var taskType = taskSelected.querySelector("span.task-type").textContent;
-  console.log(taskType);
+  document.querySelector("input[name='task-name']").value = taskName;
+  document.querySelector("select[name='task-type']").value = taskType;
+  document.querySelector("#save-task").textContent = "Save Task";
+  formEl.setAttribute("data-task-id" + taskId);
 }
 
 
