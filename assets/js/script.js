@@ -95,22 +95,46 @@ var createTaskActions = function(taskId) {
 };
 
 
-// ****** delete button functions
+// ****** delete and edit button function
 var taskButtonHandler = function(event) {
   console.log(event.target);
-  if (event.target.matches(".delete-btn")) {
+  var targetEl = event.target;
+
+    // ****** Edit buton clicked
+  if(targetEl.matches(".edit-btn")) {
+    var taskId = targetEl.getAttribute("data-task-id");
+    editTask(taskId);
+  }
+
+    // ****** delete button clicked
+  else if (targetEl.matches(".delete-btn")) {
       // ****** get the elements task id
     var taskId = event.target.getAttribute("data-task-id");
     deleteTask(taskId);
+
     console.log(taskId);
   }
 };
 
+// ****** Delete button
 var deleteTask = function(taskId) {
   var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
   taskSelected.remove();
   console.log(taskSelected);
-  
+}
+
+var editTask = function(taskId) {
+  console.log("editing task #" + taskId)
+
+    // ****** get task list item element
+  var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
+
+    // ****** get content from task name
+  var taskName = taskSelected.querySelector("h3.task-name").textContent;
+  console.log(taskName);
+
+  var taskType = taskSelected.querySelector("span.task-type").textContent;
+  console.log(taskType);
 }
 
 
