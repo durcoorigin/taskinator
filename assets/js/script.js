@@ -3,10 +3,12 @@ var formEl = document.querySelector("#task-form");
 var tasksToDoEl = document.querySelector("#tasks-to-do");
 var taskIdCounter = 0;
 var pageContentEl = document.querySelector("#page-content");
-
+var tasksInProgressEl = document.querySelector("#tasks-in-progress");
+var tasksCompletedEl = document.querySelector("#tasks-completed");
 
     // ****** Form Handler
 var taskFormHandler = function(event) {
+//    debugger;
     event.preventDefault();
     var taskNameInput = document.querySelector("input[name='task-name']").value;
     var taskTypeInput = document.querySelector("select[name='task-type']").value;
@@ -22,7 +24,7 @@ var taskFormHandler = function(event) {
     var isEdit = formEl.hasAttribute("data-task-id");
     
     if (isEdit) {
-      var taskId=formEl.getAttribute("get-task-id");
+      var taskId=formEl.getAttribute("data-task-id");
       completeEditTask(taskNameInput, taskTypeInput, taskId);
     }
   
@@ -155,17 +157,35 @@ var editTask = function(taskId) {
   document.querySelector("input[name='task-name']").value = taskName;
   document.querySelector("select[name='task-type']").value = taskType;
   document.querySelector("#save-task").textContent = "Save Task";
-  formEl.setAttribute("data-task-id" + taskId);
+  formEl.setAttribute("data-task-id", + taskId);
 }
 
+// ****** Change Task Status
+var taskStatusChangeHandler = function(event) {
+  var taskId = event.target.getAttribute("data-task-id");
+  var statusValue = event.target.value.toLowerCase();
+  var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
+  
+  if (statusValue === "to do"){
+    tasksToDoEl.appendChild(taskSelected);
+  }
+  else if (statusValue === "in progress") {
+    tasksInProgressEl.appendChild(taskSelected);
+  }
+  else if (statusValue === "completed") {
+    tasksCompletedEl.appendChild(taskSelected);
+  }
+  
+};
 
-// ****** Event Listener
+
+// ****** Event Listeners
 formEl.addEventListener("submit", taskFormHandler); {
-//  debugger;
   var listItemEl = document.createElement("li");
   listItemEl.className = "task-item";
   listItemEl.textContent = name;
-}
-
+};
 
 pageContentEl.addEventListener("click", taskButtonHandler);
+pageContentEl.addEventListener("change", taskStatusChangeHandler);
+
