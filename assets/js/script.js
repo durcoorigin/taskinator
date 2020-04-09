@@ -94,6 +94,26 @@ var createTaskActions = function(taskId) {
   return actionContainerEl;
 };
 
+
+// ****** delete button functions
+var taskButtonHandler = function(event) {
+  console.log(event.target);
+  if (event.target.matches(".delete-btn")) {
+      // ****** get the elements task id
+    var taskId = event.target.getAttribute("data-task-id");
+    deleteTask(taskId);
+    console.log(taskId);
+  }
+};
+
+var deleteTask = function(taskId) {
+  var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
+  taskSelected.remove();
+  console.log(taskSelected);
+  
+}
+
+
 // ****** Event Listener
 formEl.addEventListener("submit", taskFormHandler); {
 //  debugger;
@@ -102,11 +122,5 @@ formEl.addEventListener("submit", taskFormHandler); {
   listItemEl.textContent = name;
 }
 
-var taskButtonHandler = function(event) {
-  console.log(event.target);
-  if (event.target.matches(".delete-btn")) {
-    console.log("You clicked the delete button");
-  }
-}
 
 pageContentEl.addEventListener("click", taskButtonHandler);
